@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: Mail Now
- * Plugin URI: https://kavavdigital.com
+ * Plugin Name: External Url for WP Forms
+ * Plugin URI: https://zenx5.pro
  * Description: 
  * Version: 6.7.0
  * Author: Octavio Martinez
- * Author URI: https://github.com/zenx5 
+ * Author URI: https://zenx5.pro
  * 
  */
 
