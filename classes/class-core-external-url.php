@@ -34,15 +34,25 @@ class FormExternalUrl {
         if( isset( $_POST["wp_forms_external_selector"] ) ) {
             update_option("wp_forms_external_selector", $_POST["wp_forms_external_selector"]);
         }
+        if( isset( $_POST["wp_forms_external_apiurl_post"] ) ) {
+            update_option("wp_forms_external_apiurl_post", $_POST["wp_forms_external_apiurl_post"]);
+        }
+        if( isset( $_POST["wp_forms_external_apiurl_get"] ) ) {
+            update_option("wp_forms_external_apiurl_get", $_POST["wp_forms_external_apiurl_get"]);
+        }
     }
 
     public static function get_settings() {
         $id = get_option("wp_forms_external_id", "");
         $selector = get_option("wp_forms_external_selector", "");
+        $url_post = get_option("wp_forms_external_apiurl_post", "");
+        $url_get = get_option("wp_forms_external_apiurl_get", "");
 
         echo json_encode([
             "id" => $id,
-            "selector" => $selector
+            "selector" => $selector,
+            "post" => $url_post,
+            "get" => $url_get
         ]);
         die();
     }
@@ -56,6 +66,8 @@ class FormExternalUrl {
             function(){
                 $id = get_option("wp_forms_external_id", "");
                 $selector = get_option("wp_forms_external_selector","");
+                $url_get = get_option("wp_forms_external_apiurl_get","");
+                $url_post = get_option("wp_forms_external_apiurl_post","");
                 ?>
                     <script>
                         (async ()=>{
@@ -75,15 +87,27 @@ class FormExternalUrl {
                     <div style="margin: 40px;">
                         <table>
                             <tr>
+                                <th>Form ID:</th>
+                                <td>
+                                    <input type="text" name="wp_forms_external_id" value="<?=$id?>"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>API Url (Post):</th>
+                                <td>
+                                    <input type="text" name="wp_forms_external_apiurl_post" value="<?=$url_post?>"/>
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>Selector</th>
                                 <td>
                                     <input type="text" name="wp_forms_external_selector" value="<?=$selector?>"/>
                                 </td>
                             </tr>
                             <tr>
-                                <th>Form ID:</th>
+                                <th>Api Url (Get):</th>
                                 <td>
-                                    <input type="text" name="wp_forms_external_id" value="<?=$id?>"/>
+                                    <input type="text" name="wp_forms_external_apiurl_get" value="<?=$url_get?>"/>
                                 </td>
                             </tr>
                             <tr>
@@ -99,12 +123,15 @@ class FormExternalUrl {
                             .click(function(){
                                 const id = document.querySelector('input[name="wp_forms_external_id"]').value
                                 const selector = document.querySelector('input[name="wp_forms_external_selector"]').value
+                                const post = document.querySelector('input[name="wp_forms_external_apiurl_post"]').value
+                                const get = document.querySelector('input[name="wp_forms_external_apiurl_get"]').value
+
                                 const response = fetch(ajaxurl, {
                                     method:'post',
                                     headers:{
                                         'Content-Type':'application/x-www-form-urlencoded'
                                     },
-                                    body: `action=update_settings&wp_forms_external_id=${id}&wp_forms_external_selector=${selector}`,
+                                    body: `action=update_settings&wp_forms_external_id=${id}&wp_forms_external_selector=${selector}&wp_forms_external_apiurl_get=${get}&wp_forms_external_apiurl_post=${post}`,
                                 }).then( response => document.location.reload() )
                             })
 
