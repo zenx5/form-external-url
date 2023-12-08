@@ -11,8 +11,9 @@ class FormExternalUrl {
     }
 
     public static function init() {
-        add_action('admin_menu', [$this,'admin_menu']);
-        add_action( "wpforms_ajax_submit_completed", [$this, "connect_url"] );
+        add_action('admin_menu', ['FormExternalUrl','admin_menu']);
+        add_action( "wpforms_ajax_submit_completed", ['FormExternalUrl', "connect_url"] );
+        // add_filter( "wpforms_frontend_confirmation_message", [$this, "response_filter"] );
     }
 
     public static function admin_menu(){
@@ -41,10 +42,20 @@ class FormExternalUrl {
 
     public static function connect_url($form_id) {
         // Deberiamos tener una zona de configuracion donde asociar el ID con una url
+        // if( $form_id==="9492" ) {
+        //     // Aqui obtenemos los datos del formulario y ya con esto podemos hacer el cURL
+        //     $form_data = wpforms()->form->get( $form_id, [ 'content_only' => true ] );
+        //     $data = self::extract_data( $form_data );
+        //     //cURL
 
-        // Aqui obtenemos los datos del formulario y ya con esto podemos hacer el cURL
-        $form_data = wpforms()->form->get( $form_id, [ 'content_only' => true ] );
+        // }
 
+
+    }
+
+    public static function extract_data( $form_data ) {
+
+        return $form_data;
     }
 
 }
